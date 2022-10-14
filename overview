@@ -1,0 +1,153 @@
+k8s:
+    a container  orchestration tool.
+
+why k8s:
+ - scale
+ - monitoring
+ - self healing
+ - auto-scaling
+
+architecture:
+ kubectl is a tool to interact with the cluster
+
+ - kubectl run nginx --image=nginx 
+ - the command above is received by the API server in the conttrol plane node
+
+ - k8s has the control plane node and other worker nodes
+     - components of the control plane node
+        - API server -->
+                            1. Every command goes to the API server either in JSON or YAML or command line calls
+                            2. API server does 3 things 
+                                    Authentication --> user is authenticated with the header passed
+                                    Authorization  --> user is authorized using  (role based access control).
+                                                       RBAC authorization uses the rbac.authorization.k8s.io API group to drive authorization 
+                                    Admmision
+
+        - Scheduler  -->    an very intelligent component in k8s. It finds the best fit  node to process the request from API server based on
+                            taints/tolerations, affinity, nodeselector & updates the pod spec with node.
+
+        - Controller manager -->
+                                 1. it manages all this objects
+                                    Replicaset
+                                    Deployment
+                                    job
+                                    Statefulset
+                                    daemonset
+                                 2. Takes care of the reconciliation loop which is maintaining the desired state and actual state
+        - etcd        --> key value db for k8s cluster controlled by RAFT algo (leader election) 2n+1
+        - CCM, cloud controller manager --> talks to the cloud and the cluster to perform some certain actions
+
+    - components of a worker node
+        - Kubelet    --> keeps tabs on API server on what to run 
+        - Kube-proxy  --> 1. maintains network rules on the node pods.
+                             The network rules allow communication to ypur pods from network sessions inside and outside of your cluster
+                          2. Every time a pod is created, the ip tables is handeled by kube-proxy
+                          3. handles iptables or ipvs for pods
+        - Pods
+        - CRI, container run time --> Containerd
+        - CNI, container network interface --> Flannel, calico, cilium
+        - CSI, contianer storage interface --> Longhorn, openEBS 
+
+YAML:
+    object: seperated by new line and space
+    list: --> started by - and every other key value pair follows
+
+    To eneter multiple string:  |
+
+                                |
+
+    To enter multiple objects:
+                            _ _ _
+                            _ _ _
+
+    Example:
+        ---
+        doe: "a deer, a female deer"
+        ray: "a drop of golden sun"
+        pi: 3.14159
+        xmas: true
+        french-hens: 3
+        calling-birds:
+        - huey
+        - dewey
+        - louie
+        - fred
+        xmas-fifth-day:
+        calling-birds: four
+        french-hens: 3
+        golden-rings: 5
+        partridges:
+            count: 1
+            location: "a pear tree"
+        turtle-doves: two
+
+  
+    Example 2:
+
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: nginx-deployment
+        labels:
+            app: nginx
+        spec:
+        replicas: 3
+        selector:
+            matchLabels:
+            app: nginx
+        template:
+            metadata:
+            labels:
+                app: nginx
+            spec:
+            containers:
+            - name: nginx
+                image: nginx:1.14.2
+                ports:
+                - containerPort: 80
+
+Commands:
+    i.  Imperative  --> what you write on the CLI
+    ii. Declarative --> whatyou write on 
+
+Group, Version, Resource:
+
+    here  under the Declarative commands either using a declarative or imperative mode implies switching between 
+    i.  groups --> is a collection of kind of apiVersion. e.g
+            i. apps group version will use any of this kind Deployment, repliset and statefulset
+                apiVersion: apps/v1
+                kind: Deployment
+            ii. v1 group version will use any of this kind pod
+                apiVersion: v1
+                kind: Pod
+           
+    ii. versions every group goes with one or more version
+            i.   Alpha
+            ii.  Beta
+            iii. Stable
+
+    ii. Resource: This is just the use of kind in the API, meaning the type of Kind used whichich could be either
+            i. Pod
+            ii. Deployment
+
+
+Namspaces:
+    - namespace are isolated enviroment where you can set different set of policies and quotas 
+    - can run  different application version in namspace
+    - enables grouping of resources seperately like monitoring, databases e.t.c
+    - more like github branch
+    - every resource in k8s cluster is created either in the default namespace or a namespace created by the operator.
+
+    - it has 4 namespace by default
+        default           -->  the default namespace
+        kube-node-lease   --> 
+        kube-public       -->  contains the cluster info and certificate. run "kubectl get cm -ns kube-public"
+        kube-system  
+    
+    Note:
+     - in k8s some resources are namespaced while some are not.
+
+
+Labels and Selectors:
+    - a way of labelling pods 
+    

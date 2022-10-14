@@ -1,0 +1,44 @@
+# get nodes and pods
+kubectl get nodes
+kubectl get pods -A 
+kubectl get pods -A -owide  
+kubectl get pods 
+kubectl run demo --image=nginx --dry-run=client -oyaml
+
+
+# name spaces
+
+kubectl get namespace or kubectl get ns
+kubectl get pods -n <namespace>
+
+kubectl get cm -n kube-public
+kubectl cluster-info  
+
+kubectl get lease -n kube-node-lease
+
+# create namespace
+kubectl create ns dev
+kubectl create ns testing
+
+# get sample yml for declarative approach to creating ns
+kubectl create ns  demo  --dry-run=client -oyaml
+
+# create deployment in namespaces
+kubectl create deploy olawale --image=nginx
+kubectl create deploy olawale --image=nginx -n dev
+kubectl create deploy olawale --image=nginx -n testing
+
+# describe namespace
+kubectl describe ns dev
+kubectl describe ns testing
+
+# delete namespaces
+kubectl delete ns dev
+kubectl delete ns testing
+
+# switch kebuctl context
+kubectl config set-context --current --namespace=dev
+  
+
+# Labels and selectors
+
