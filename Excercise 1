@@ -1,0 +1,12 @@
+
+
+kubectl create ns dev
+kubectl config set-context --current --namespace=dev
+kubectl run nginx  --image=nginx
+kubectl create deploy  nginx  --image=nginx
+kubectl label pod nginx app=demo
+kubectl get pods --show-labels
+ kubectl config set-context --current --namespace=default
+kubectl get pods -n dev
+kubectl get pods -l app=demo -n dev
+kubectl get pods -l 'app in (demo,nginx)"  -n dev

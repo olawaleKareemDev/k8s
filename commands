@@ -1,7 +1,8 @@
 # get nodes and pods
 kubectl get nodes
 kubectl get pods -A 
-kubectl get pods -A -owide  
+kubectl get pods -A -owide  #all system pods with more info
+kubectl get pods -owide     # namespace pods with more info
 kubectl get pods 
 kubectl run demo --image=nginx --dry-run=client -oyaml
 
@@ -42,3 +43,37 @@ kubectl config set-context --current --namespace=dev
 
 # Labels and selectors
 
+
+kubectl get pods --show-labels
+
+kubectl run demo  --image=nginx
+# show pod details with label
+kubectl get pods --show-labels
+# add more lables
+kubectl label pod demo run2=nginx
+
+
+
+#pods
+
+kubectl run demo --image=nginx
+kubectl describe pod demo
+kubectl logs -f demo   # check pod logs
+
+kubectl exec -it nginx bash  # access pod shell
+kubectl exec -it nginx -- sh
+
+kubectl delete pod nginx
+kubectl delete pod nginx --force #forceful deletion
+
+
+# satarting init container declaratively
+kubectl apply -f <file-name>
+
+# excercise 2 steps
+vi init
+paste excercise 1 content inside
+kubectl apply -f init
+kubectl exec -it init -- sh
+cat /usr/share/nginx/html/index.html 
+curl localhost

@@ -150,4 +150,34 @@ Namspaces:
 
 Labels and Selectors:
     - a way of labelling pods 
-    
+    - comes in the metadata section
+
+
+    - selectors are used to match labels and is found in the spec section of the k8s object
+    - selectors are divided into 2 -->
+                i.  equity based labels: e.g node selector
+                ii. set based labels:  e.g in, Not in, exists
+
+Pods:
+    - everything in k8s run in pods
+    - the structure is 
+                    Node(vms where the pod runs) --> pod(an abstrsaction where containers run) --> containers
+    - lifecycle
+        1. pending ---> creates the PV and bounds PVC to it
+        2. containercreating ---> CRI,CNI,CSI pulls the image, attach a network and storage respectively.
+        3. Running ---> starts the container
+        4. Error   ---> error out
+        5. crashloopbackoff --> keeps process in a loop when container dying to many times
+        6. Succeeded ---> succesfully created a container
+
+
+init containers:
+    - run before some certain coantainers run
+    - can contain custom code not present in the app
+    - change filesystem based on type of login before main conatainer starts
+    - pre condition checks
+    - can run in sequential order if you have multiple init containers
+
+
+
+
