@@ -1,6 +1,7 @@
 # get nodes and pods
 kubectl get nodes
 kubectl get pods -A 
+kubectl get pods -w
 kubectl get pods -A -owide  #all system pods with more info
 kubectl get pods -owide     # namespace pods with more info
 kubectl get pods 
@@ -77,3 +78,7 @@ kubectl apply -f init
 kubectl exec -it init -- sh
 cat /usr/share/nginx/html/index.html 
 curl localhost
+
+
+# check the logs of a multi container pod
+kubectl logs -f <pod name> -c <container name>
