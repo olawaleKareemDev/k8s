@@ -171,12 +171,20 @@ Pods:
         6. Succeeded ---> succesfully created a container
 
 
-init containers:
+init containers and multi-init containers:
     - run before some certain coantainers run
     - can contain custom code not present in the app
     - change filesystem based on type of login before main conatainer starts
     - pre condition checks
     - can run in sequential order if you have multiple init containers
+    - check Excercise 1 for example declarative command
+
+multi containers:
+    - pods can have more than one container
+    - a pod can only have 1 IP
+    - containers in a pod talk to each other using the localhost
+    - check Excercise 2 for example declarative command
+
 
 
 
