@@ -82,3 +82,6 @@ curl localhost
 
 # check the logs of a multi container pod
 kubectl logs -f <pod name> -c <container name>
+
+
+# show CPU and memory for a pod

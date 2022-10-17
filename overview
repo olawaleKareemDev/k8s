@@ -185,6 +185,21 @@ multi containers:
     - containers in a pod talk to each other using the localhost
     - check Excercise 2 for example declarative command
 
+Probes:
+    - k8s can send traffic to  a pod even when it is not ready to handle it.
+    - incase of dbs deadlock 
+
+    - so for this scenerious you can define probes in your pod
+    - Probes are divided into 3 
+        1. readiness prob --> check if pod is ready to accept traffic, check network latency issue or availability of service
+        2. liveness prob -->  executes first and until it is a success other probes don't execute
+        3. startup prob -->  http get -- response 200 OK or from 200-399
+                             tcpsocket -- portCheck
+                             exec     -- custom command file check to see if pod is ready
+
+                             
+
+
 
 
 

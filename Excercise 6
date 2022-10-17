@@ -1,0 +1,40 @@
+1.
+
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+vi components.yaml
+add  "- --kubelet-insecure-tls" at the spec/spec template under the service flag section
+run 
+    kubectl apply -f components.yaml
+    kubectl get pods -A to view the metric server because it will be created as a system server
+
+
+2. 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limit-test
+spec:
+  containers:
+  -  name: cpu-mem
+     image: saiyam911/stress
+     resources:
+       limits:
+         cpu: "1"
+         memory: "200Mi"
+       requests:
+         cpu: "500m"
+         memory: "100Mi"
+     command: ["stress"]
+     args: ["--cpu", "2"] 
+     #args: ["--vm","1","--vm-bytes", "250M", "--vm-hang", "1"] 
+
+
+
+run 
+    vi rr.yml and paste in the declarative command above
+    kunectl apply rr.yml
+
+
+run 
+    kubectl top nodes to show CPU and memory
