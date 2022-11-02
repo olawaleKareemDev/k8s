@@ -1,0 +1,74 @@
+1. run command
+    kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.22/deploy/local-path-storage.yaml
+
+
+2. 
+    run commands below:
+            kubectl get pvc   # persistent volume
+            kubectl get pv
+            kubectl get sc    # storage class
+
+3.  create a service and stateful set
+    i. vi ss and paste the content below in
+
+        apiVersion: v1
+        kind: Service
+        metadata:
+        name: nginx
+        labels:
+            app: nginx
+        spec:
+        ports:
+        - port: 80
+            name: web
+        clusterIP: None
+        selector:
+            app: nginx
+        ---
+        apiVersion: apps/v1
+        kind: StatefulSet
+        metadata:
+        name: web
+        spec:
+        serviceName: "nginx"
+        replicas: 2
+        selector:
+            matchLabels:
+            app: nginx
+        template:
+            metadata:
+            labels:
+                app: nginx
+            spec:
+            containers:
+            - name: nginx
+                image: k8s.gcr.io/nginx-slim:0.8
+                ports:
+                - containerPort: 80
+                name: web
+                volumeMounts:
+                - name: www
+                mountPath: /usr/share/nginx/html
+        volumeClaimTemplates:
+        - metadata:
+            name: www
+            spec:
+            storageClassName: local-path
+            accessModes: [ "ReadWriteOnce" ]
+            resources:
+                requests:
+                storage: 1Gi
+
+        ii. kubectl  apply -f ss
+
+        iii. 
+            kubectl exec -it web-0 bash
+            echo "hello from olawale" >> /usr/share/nginx/html/index.html
+
+            kubectl exec -it web-1 bash
+            echo "hello from olawale" >> /usr/share/nginx/html/index.html
+
+            curl web-0.nginx.default.svc.cluster.local  #run from the web-1 pod. This basically calls the service shared by the stafeulset
+
+
+    

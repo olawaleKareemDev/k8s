@@ -116,4 +116,7 @@ kubectl rollout history deploy nginx-demo
 kubectl rollout history deploy nginx-demo
 kubectl rollout undo deployment nginx-demo --to-revision 3 # the number 3 is the revision number to roll to goten from history
 
+# delete deployment
+kubectl delete deploy nginx-demo-1 --force
+
 
