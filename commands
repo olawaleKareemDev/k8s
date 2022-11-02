@@ -85,3 +85,35 @@ kubectl logs -f <pod name> -c <container name>
 
 
 # show CPU and memory for a pod
+kubectl top pods
+kubectl top nodes
+
+
+# create deployments
+
+kubectl create deploy nginx-demo --image=nginx
+kubectl create deploy nginx-demo-1 --image=nginx
+kubectl get rs
+kubectl get pods
+
+# scale deploy 
+kubectl scale deploy nginx-demo --replicas 5
+kubectl scale deploy nginx-demo-1 --replicas 5
+
+# edit deploy
+kubectl edit deploy nginx-demo
+kubectl edit deploy nginx-demo-1
+
+# change deploy image
+kubectl set image deployment/nginx-demo nginx=nginx:1.15.2 --record
+kubectl describe deploy nginx-demo
+
+# deployment roll out status, history
+kubectl rollout status deploy nginx-demo
+kubectl rollout history deploy nginx-demo
+
+# roll back deployment
+kubectl rollout history deploy nginx-demo
+kubectl rollout undo deployment nginx-demo --to-revision 3 # the number 3 is the revision number to roll to goten from history
+
+
