@@ -198,6 +198,12 @@ Probes:
                              exec     -- custom command file check to see if pod is ready
 
                              
+Statefulset:
+    - A kind of k8 service that is suitable for creating data sensitive and consistent applications.
+    - it uses an headless service. by headless service you can have a pod or your app use DNS names for writing and 
+        then have a replication mechanism in place.
+    -  Statefulset are deleted in the reverse order.
+    -  
 
 
 
