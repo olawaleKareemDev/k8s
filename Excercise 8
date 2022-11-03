@@ -1,0 +1,35 @@
+1. vi po.
+  past in the code below
+
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: shared-namespace
+    spec:
+      containers:
+        - name: P1
+          image: busybox
+          command: ['/bin/sh', '-c', 'sleep 10000']
+        - name: P2
+          image: nginx
+
+
+2. run container
+  kubectl run apply -f po
+  kubectl get pods
+  kubectl get nodes
+
+  # on the control plane
+  ip netns list
+
+  # on another tab switch to the second node
+  ssh node01
+  ip netns list
+
+  lsns
+  lsns | grep nginx
+  lsns -p 30668( this is the root PID number of the container ns) 
+
+
+
+
