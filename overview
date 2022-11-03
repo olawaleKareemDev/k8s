@@ -203,10 +203,27 @@ Statefulset:
     - it uses an headless service. by headless service you can have a pod or your app use DNS names for writing and 
         then have a replication mechanism in place.
     -  Statefulset are deleted in the reverse order.
-    -  
 
 
+Networking:
+    - every pod has its eth0 address
+    - when a pod is created CNI attach an IP to its Network( eth0)
+    - The eth0 network is attached to the root network namespace via "veth" (virtual eth)
+    - for every pod created a corresponding "veth" is created connected to the "eth0" of that pod.
 
+    - containerd creaates the network namespace and the "pause container" holds the network nam,e space 
+
+
+Inter Pod communication:
+    - a pod via its "eth0" connected to "veth" pass traffic to a "bridge".
+    - the bridge resolves the traffic using "ARP" table and routes the traffic to the required pod.
+    - The bridge has the IP address of all the pods.
+
+Inter Node communication:
+    - uses a bitwise operation or adding operation to check that the destination is not on the same node
+    - sends traffic to the default gateway. The default gateway routes it to the node bridge in the root ns which
+      uses ARP to resolve to the destination pod
+    - The bridge has the IP address of all the pods.
 
 
 

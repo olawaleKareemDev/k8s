@@ -70,5 +70,8 @@
 
             curl web-0.nginx.default.svc.cluster.local  #run from the web-1 pod. This basically calls the service shared by the stafeulset
 
+            cat etc/resolv.conf
+            curl web-0.nginx
+
 
     
