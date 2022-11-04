@@ -120,3 +120,15 @@ kubectl rollout undo deployment nginx-demo --to-revision 3 # the number 3 is the
 kubectl delete deploy nginx-demo-1 --force
 
 
+
+# services
+
+kubectl run nginx --image=nginx
+kubectl expose pod nginx --port 80
+kubectl get svc
+kubectl get ep
+kubectl get pods -owide
+
+# some delete commands
+kubectl delete statefulset --all --force
+kubectl delete pods --all --force

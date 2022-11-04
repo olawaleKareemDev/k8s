@@ -1,0 +1,23 @@
+
+
+
+kubectl run nginx --image=nginx
+kubectl run nginx2 --image=nginx
+kubectl label pod nginx2 run=nginx --overwrite # changes the pod label to run=nginx
+
+kubectl expose pod nginx --port 80 # picks the label nginx and exposes the port
+kubectl get svc
+kubectl delete svc nginx
+
+# do it again for doing sake
+kubectl expose pod nginx --port 80
+kubectl get svc 
+kubectl get ep
+kubectl get svc  
+curl 10.107.251.250  # curl into the nginx IP
+kubectl get svc
+kubectl edit svc nginx # edit the nginx service
+                       # change the service type under spec section to  "NodePort" 
+
+
+
