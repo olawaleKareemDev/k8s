@@ -136,3 +136,8 @@ kubectl delete pods --all --force
 
 # authentication
 kubectl config view # get cluster information
+
+# another way to create pod declaratively on the k8 shell
+
+cat << EOF | kubectlapply -f -  #press enter and paste your code in
+EOF # add at the end of the line

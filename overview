@@ -250,7 +250,6 @@ Services:
 
 Authentication, Authorization and admission:
 
-
     Authentication -  when request comes in
                    -  regular user is handled by UMS
                    -  service account is handled by kubernettes. it uses secrets to geenrate token
@@ -262,12 +261,142 @@ Authentication, Authorization and admission:
 
     RBAC - ROLE BASED ACCESS CONTROLLER
 
-        - Cluster role
-        - cluster role binding
+        - Cluster role  --> cluster role can be bounded to "cluster role binding"
+        - cluster role binding --> binds "cluster role" to "role"
         - role
-        - role binding
+        - role binding  --> to bind role to a service account
 
 
 
+Kubectl Service Account:
+
+    kubectl create clusterrolebinding cluster-admin --clusterrole=cluster-admin
+    kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods
+    kubectl create clusterrolebinding demo --clusterrole=pod-reader --serviceaccount=default
+
+    kubectl auth can-i --list --as-system:serviceaccount:default:saiyam
+
+
+ConfigMaps and secrets:
+    - This are the properties needed by the application and the secrets needed by the app
+
+
+    Ex1
+
+        a. ConfigMap object
+
+            apiVersion: v1
+            data:
+                live:   demo
+            kind: ConfigMap
+            metadata:
+                creationTimestamp: null
+                name: test
+
+        b. pod obhject usage as env variables
+
+            apiVersion: v1
+            kind: Pod
+            metadata:
+                creationTimestamp: null
+                labels:
+                    run: busybox
+                name: busybox
+            spec:
+                containers:
+                    - name: P1
+                    image: busybox
+                    command: ['/bin/sh', '-c', 'sleep 10000']
+                    env:
+                        - name: LOOK
+                        valueFrom:
+                            configMapKeyRef:
+                                name: test
+                                keyy: live
+                    - name: P2
+                    image: nginx
+
+    EX2
+
+        a. ConfigMap object
+
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+                name: demo-vol
+            data:
+                fileA:  |-
+                    hello: mark
+                    learn: kubernetes
+                fileB: test2
+
+        b. pod object usage as volume
+
+            apiVersion: v1
+            kind: Pod
+            metadata:
+                creationTimestamp: null
+                labels:
+                    run: busybox
+                name: busybox3
+            spec:
+                volumes:
+                - name: demo
+                  configMap:
+                    name: demo-vol
+                containers:
+                    - name: busybox
+                      image: busybox
+                      command: ['sleep', '3600']
+                      volumeMounts:
+                      - name: demo
+                        mountPath: /home/config
+
+        c. when you exec into pod 
+        kubectl exec -it busybox3 --sh
+        cd config
+        ls # we should find fileA and File b
+
+
+Secrets:
+    - create the secret
+        kubectl create secret generic test --from-literal=live=demo
+    - create a pod that uses the secrets
+
+
+        apiVersion: v1
+        kind: Pod
+        metadata:
+        creationTimestamp: null
+        labels:
+            run: busybox
+        name: busybox
+        spec:
+        containers:
+        - image: busybox
+            name: busybox
+            command: ["/bin/sh","-c","printenv"]
+            env:
+            - name: LOOK
+                valueFrom:
+                secretKeyRef:
+                    name: test
+                    key: live
+
+    -  log the pod to see the secret
+
+        kubectl logs busybox
+
+
+Setup k8s locally
+    1. docker
+    2. desktop rancher
+
+    # install k8s on linux 
+    https://thenewstack.io/how-to-deploy-kubernetes-with-kubeadm-and-containerd/
+     
+    # k8s github
+
+    https://github.com/kubesimplify/workshops-content/tree/main/kubernetes-101
 
 
