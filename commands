@@ -132,3 +132,7 @@ kubectl get pods -owide
 # some delete commands
 kubectl delete statefulset --all --force
 kubectl delete pods --all --force
+
+
+# authentication
+kubectl config view # get cluster information

@@ -248,6 +248,26 @@ Services:
                 - use for statefulset
                 - you can communicate with the port using The DNS
 
+Authentication, Authorization and admission:
+
+
+    Authentication -  when request comes in
+                   -  regular user is handled by UMS
+                   -  service account is handled by kubernettes. it uses secrets to geenrate token
+                   - After Authentication is done other user details like (UID, Groups, Fields)  are added to the  request before it is passed to authorization
+
+    Authorization - check if a user is allowed to porform the requested operation
+    Admission - policy check by asdmission controllers
+
+
+    RBAC - ROLE BASED ACCESS CONTROLLER
+
+        - Cluster role
+        - cluster role binding
+        - role
+        - role binding
+
+
 
 
 

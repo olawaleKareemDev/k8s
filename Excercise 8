@@ -30,6 +30,26 @@
   lsns | grep nginx
   lsns -p 30668( this is the root PID number of the container ns) 
 
+  # compare the output below
+
+  # on node01 run
+  ls -lt /var/run/netns
+  ip netns exec cni-8eb2019c-0ace-8700-9df5-b9b527311621 ip link # result 1
+
+  # on the control plane run
+  kubectl get pods
+  kubectl exec -it shared-namespace -- sh
+  ip link  # result 2
+
+  # result 1 and result 2 should give you the same eth0 address confirming that it belongs to the same pod
+
+
+  # to see the link between the veth and eth0 of the nginx pod  on Node01
+  # copy the eth0 address..
+   eth0@if10
+
+  #run the command
+  ip link | grep -A1 ^10
 
 
 
