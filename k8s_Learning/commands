@@ -44,10 +44,10 @@ kubectl config set-context --current --namespace=dev
 
 # Labels and selectors
 
-
 kubectl get pods --show-labels
 
 kubectl run demo  --image=nginx
+
 # show pod details with label
 kubectl get pods --show-labels
 # add more lables

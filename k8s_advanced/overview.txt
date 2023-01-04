@@ -1,0 +1,18 @@
+
+
+Resources:
+
+    1. mac intel users use image:
+        image: richardchesterwood/k8s-fleetman-webapp-angular:release1
+
+    2. mac M1 (arm64) users use image:
+        image: richardchesterwood/k8s-fleetman-webapp-angular-arm64
+
+
+
+k8s local deploy:
+
+    1. install docker, minikube. start docker
+    2. minikube start --driver=hyperkit
+    3. kubectl commands are now active.
+
