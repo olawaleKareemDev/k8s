@@ -16,3 +16,8 @@ k8s local deploy:
     2. minikube start --driver=hyperkit
     3. kubectl commands are now active.
 
+Excercise 1
+
+    1. deploy pods and services
+        - configure k8s for local deploy
+        - use pods.yml and services.yml
