@@ -40,7 +40,8 @@ kubectl delete ns testing
 
 # switch kebuctl context
 kubectl config set-context --current --namespace=dev
-  
+
+
 
 # Labels and selectors
 
