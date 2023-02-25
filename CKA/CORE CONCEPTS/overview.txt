@@ -1,0 +1,19 @@
+k8s componenets
+
+    Master node:
+        - kubeAPIserver
+        - Controller manager -->
+                - Replication controller manager
+                - node controller
+        - ETCD cluster --> holds container info
+        - kube-scheduler
+
+
+    Worker nodes:
+        - kubelet
+        - kube proxy - allows container running on the node to have the neccessary port to communicate with other container on another worker node.
+        - CRI - container runtime environment
+
+        
+
+    
