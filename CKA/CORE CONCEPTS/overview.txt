@@ -93,6 +93,70 @@ k8s componenets
                        - ps -aux | grep kube-apiserver
 
 
+    kube controller manager:
+
+        - A k8s process that monitors all  components in the k8s cluster and ensures all is in the desired working state.
+        - when you install the k8s manager all other manager gets installed as well
+        -
+
+
+        Installing kube-controller-manager
+
+            1. download binary
+                wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-controller-manager
+
+            2. kube-controller-manager.service
+
+
+
+        kube controller manager components
+            1. Node controller : monitors nodes health via the kubeapi server
+            2. Replication controller: monitors the number of replicaset/ number of nodes within the k8s custer at every point in time
+
+        others
+            3. Namespace controller
+            4. Endpoint controller
+            5. Cronjob
+            6. Job controller
+            7. PV Protection Controller
+            8. Replicaset
+            9. Replication Controller
+            10. PV Binder Controller
+            11. Statefulset
+            12. Deployment controller 
+
+
+        kube controller manager kubeadm
+
+            1. list out the pods in the kube-system namespace:  kubectl get pods -n kube-system
+            2. controller manager service manaifest:            cat /etc/kubernetes/manaifests/kube-controller-manager.yaml
+            3. list controller manager service:                 cat /etc/systemd/system/kube-controller-manager.service
+            4. check running process:                           ps -aux | grep kube-controller-manager
+
+
+
+    kube scheduler:
+
+        - Determines which pod goes on what node. it doesn't place the pod on the node.
+        - kubelet places the pod on the node
+        - scheduler checks a pod and identifier a node for it.
+
+        activities of a kube scheduler
+
+        1. Filter Nodes
+        2. Rank Nodes
+
+        manual install
+         1. download kube-scheduler
+            wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-scheduler
+         2. run as a service
+            kube-scheduler.service
+       
+        kubeadm install
+         1. cat /etc/kubernetes/manifests/kube-scheduler.yaml
+         2. ps -aux | grep kube-scheduler
+        
+
 
 
         
