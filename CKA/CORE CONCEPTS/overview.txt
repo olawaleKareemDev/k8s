@@ -14,6 +14,85 @@ k8s componenets
         - kube proxy - allows container running on the node to have the neccessary port to communicate with other container on another worker node.
         - CRI - container runtime environment
 
-        
 
-    
+
+    ETCD:
+        What is ETCD?
+         - A key value db 
+         - it holds the info about the cluster such as 
+                - Nodes
+                - Pods
+                - Configs
+                - Secrets
+                - Accounts
+                - Roles
+                - Bindings
+                - Other
+
+         - Any changes you made to a k8s cluster is considered effective only if the change has been effected in the ETCD cluster.
+         - 2 ways to dplotying  a k8s cluster
+                    - From scratch
+                    - Using kubeadm tool 
+
+        setting up ectd manually:
+            You configure ETCD manaully when you install your cluster from scratch
+
+            steps
+
+                kk steps:
+                    1. wget -q --https-only "https://github.com/coreos/etcd/releases/download/v.3.3.9/etcd-v3.3.3.9-linux-amd64.tar.gz"
+                    2. etcd.service
+                    3. ExecStart=/usr/local/bin/etcd
+
+                1. install etcd --> https://etcd.io/docs/v3.4/install/ 
+                2. usage --> https://etcd.io/docs/v3.4/quickstart/
+                3. support platform --> https://etcd.io/docs/v3.4/op-guide/supported-platform/
+
+
+                # get all keys stored ion k8s
+                    kubectl exec etcd-master -m kube-system etcdctl get / --prefix -keys-only
+
+                # There is another option for etcd command line utility
+
+
+
+    Kube-API server:
+
+        # mode of communication  
+            1.  kubectl -- talks to -> kube-kubeAPIserver  -- talks to ETCD cluster --> returns back the response
+            2.  talk directly with the kubeAPIserver using APIs
+
+        # kube-api server does
+         
+            1. Authenticate user
+            2. validate Request
+            3. Retrieve data
+            4. Update ETCD
+            5. Scheduler
+            6. kubelet
+
+
+        # setup kube-api server manually
+
+            steps  :
+                setup kubeapi server manually
+
+               1. download kubeapi server binary:  wget https://stoarge.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-apiserver 
+               2. Configure kubeapi server in master node
+
+        # view option
+
+            i. for kubeadm setup. it sets up the kubeapi server as a Pods
+                kubectl get pods -ns 
+
+            ii. manaul setup 
+                manifest: cat /etc/kubernetes/manifests/kube-apiserver.yaml
+                service:  cat /etc/systemd/system/kube-apiserver.servicee
+                running process on master node:
+                       - switch to master node process
+                       - ps -aux | grep kube-apiserver
+
+
+
+
+        
