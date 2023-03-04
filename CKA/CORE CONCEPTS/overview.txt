@@ -157,6 +157,42 @@ k8s componenets
          2. ps -aux | grep kube-scheduler
         
 
+    kubelet:
+
+        - Install pods on worker nodes
+        - This is noy installed directly either when provisioning the  k8s manually or through kubeadm 
+
+        install
+            - download and install : wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet
+            - start as a service and configure
+            - check the process --> ps -aux | grep kubelet
+
+
+    kube proxy:
+
+        - Service :  This is a virtual componenets that leaves in the k8s memory
+        - Kube-proxy is a process that runs  on each node. it forwards service to any service using IPtable rules on each node
+        - Each time a new service is created ot creaates the appropriate rule to forward traffic to that service using IPtables 
+
+         install
+            - download and install : wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy
+            - start as a service and configure
+            - check the process --> ps -aux | grep kube-proxy
+
+        kubeadm  install
+            - deploy kube proxy as a pod on each node: kubectl get pods -ns kube-system
+            - also deploys as a a daemonset:            kubectl get daemonset -n kube-system 
+
+
+            
+         
+
+
+
+    
+
+
+
 
 
         

@@ -5,7 +5,7 @@ kubectl get pods -w
 kubectl get pods -A -owide  #all system pods with more info
 kubectl get pods -owide     # namespace pods with more info
 kubectl get pods 
-kubectl run demo --image=nginx --dry-run=client -oyaml
+kubectl run demo --image=nginx --dry-run=client -o yaml
 
 
 # name spaces
@@ -142,3 +142,44 @@ kubectl config view # get cluster information
 
 cat << EOF | kubectlapply -f -  #press enter and paste your code in
 EOF # add at the end of the line
+
+
+# expose a pod to a service
+# this creates the service and exposes the pod networkon it
+
+kubectl expose pod redis --port=6379 --name redis-service
+kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3
+kubectl run custom-nginx --image=nginx --port=8080
+
+
+
+# resources in the same namespace
+
+    # reference service in the name space
+    db-service
+
+    # reference service in other namespace e.g dev namespace
+    db-service.dev.svc.cluster.local 
+
+    # note 
+     cluster.local is the default k8s domain
+     svc           is the service subdomain
+     dev           is the namespace
+
+# switch context/namespaces
+kubectl config set-context $(kubectl config current-context) --namespace=dev
+
+# create a resource quota for a namespace dev
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-quota
+  namespace: dev
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "4"
+    requests.memory: 5Gi
+    limits.cpu: "10"
+    limits.memory: 10Gi
