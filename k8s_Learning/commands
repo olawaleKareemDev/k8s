@@ -183,3 +183,42 @@ spec:
     requests.memory: 5Gi
     limits.cpu: "10"
     limits.memory: 10Gi
+
+
+Imperative commands
+
+
+kubectl create deployment --image=nginx nginx
+kubectl expose deployment nginx --port 80    # creates a clusterip service on the node and exposes the deployment network to it
+
+# updates
+kubectl edit deployments nginx
+kubectl scale deployment nginx --replicas=5
+kubectl set image deployment nginx nginx=nginx:1.18
+
+
+# Service
+
+create a service named redi-service of type clusterIP to expose redis port 6379
+
+    kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
+    or
+    kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml
+
+
+create a service named nginx of type NodePort to expose nginx port 80 on port 30080 on the nodes
+
+    kubectl expose pod nginx --type=NodePort --port=80 --name=nginx-service --dry-run=client -o yaml (edit this to add your nodeport )
+
+create a pod and creating a service at the same time
+
+kubectl run httpd --image=httpd:alpine --port=80 --expose=true  ( This creates pod and cluster service named httpd)
+
+# difference btw declarative and imperative
+
+    declarative command creates a last configured file. This is under the metadata.annotation section on the k8s object
+
+    the last configured template is the declarative statement converted to a json format and stored under metadata.annotation section of the k8s object.
+    
+     
+
