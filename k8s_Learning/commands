@@ -219,6 +219,44 @@ kubectl run httpd --image=httpd:alpine --port=80 --expose=true  ( This creates p
     declarative command creates a last configured file. This is under the metadata.annotation section on the k8s object
 
     the last configured template is the declarative statement converted to a json format and stored under metadata.annotation section of the k8s object.
-    
-     
 
+
+
+# pod scheduling
+
+   - k8s does it by dafault
+        uses the -->  NODE object under the spec section
+   - k8s does not allow you to change this property directly
+
+   - The way to change this property is to create a pod binding declaratively
+
+    Given the pod below
+
+        apiVersion: v1
+        kind: pod
+        metadata:
+            name: nginx
+            labels:
+                name: nginx
+        spec:
+            containers:
+            - name: nginx
+            image: nginx
+            ports:
+                - containerPort: 8080
+
+    construct pod manifest like this
+
+
+        apiVersion: v1
+        kind: binding
+        metadata:
+            name: nginx
+        target:
+            apiVersion: v1
+            kind: Node
+            name: node02
+
+    send  the json format of the pod binfing to the kube api server like below
+
+        curl --header "content-Type:application/json" --request POST --data '{"apiVersion":"", "kind": "Binding", ...} htpp://$SERVER/api/v1/namespaces/default/pods/$PODNAME/binding/
