@@ -260,3 +260,8 @@ kubectl run httpd --image=httpd:alpine --port=80 --expose=true  ( This creates p
     send  the json format of the pod binfing to the kube api server like below
 
         curl --header "content-Type:application/json" --request POST --data '{"apiVersion":"", "kind": "Binding", ...} htpp://$SERVER/api/v1/namespaces/default/pods/$PODNAME/binding/
+
+
+
+
+        
