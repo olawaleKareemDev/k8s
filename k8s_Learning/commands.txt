@@ -263,5 +263,80 @@ kubectl run httpd --image=httpd:alpine --port=80 --expose=true  ( This creates p
 
 
 
+selectors and labels
 
+    - let say you have a manifets file below
+
+
+        apiVersion: v1
+        kind: Pods
+        metadata:
+            name: nginx
+            labels:
+                app: App1
+                function: Frontend
+        spec:
+           container
+              - name: nginx
+                imag: nginx
+
+
+    
+    - The we can get the pod as below
         
+        kubectl get pods --selector app=App1
+        kubectl get all --selector env=prod  # get all objects (includes pods, replicaset services e.t.c) labelled env=prod
+        kubectl get all --selector env=prod --no-headers | wc -l    # return only numbers
+        kubectl get pods --selector env=prod,bu=finance,tier=frontend   # get all pod labelled prod,finnace and  frontend # Note don't use space in between the labels when running command
+        kubectl get all --selector env=prod,bu=finance,tier=frontend    # get all k8s object labelled prod,finnace and  frontend 
+
+# annotations:
+ This are used to hold and record object config details
+    example:
+    - build version
+    - lastconfig version
+
+
+# Taints and tolerations 
+    are used to set tolerance and restrictions to what pods can be schedule on a node.
+
+    Nodes are tainted. once tainted only pod with the right tolerance can stay
+    Pods are tolerated. once a pod is tolerated 
+
+    kubectl taint nodes node-name key=value:taint-effect   # how to taint a node
+
+    types of taint effect 
+        1. NoSchedule        -->   Don't schedule pod here
+        2. PreferNoSchedule  --->  would prefer not to execute on Node
+        3. NoExecute          ---> don't excute on node
+
+
+    # taint a node
+
+    kubectl taint nodes node01 key=blue:NoSchedule    
+
+
+    # add toleration to a pod
+
+        apiVersion: v1
+        kind: Pods
+        metadata:
+            name: nginx
+            labels:
+                app: App1
+                function: Frontend
+        spec:
+            containers:
+                - name: nginx
+                  imag: nginx
+
+            tolerations:       # note values under tolerations are to be encoded in double quotes
+                - key: "app"
+                  operator: "Equal"
+                  value: "blue"
+                  effect: "NoSchedule"
+
+
+    Note taints and toleration does not gaurantee a pod wil be placed in a certain node. instead it tells the node what type of Pod to accept
+
+
