@@ -337,6 +337,14 @@ selectors and labels
                   effect: "NoSchedule"
 
 
-    Note taints and toleration does not gaurantee a pod wil be placed in a certain node. instead it tells the node what type of Pod to accept
+        Note taints and toleration does not gaurantee a pod wil be placed in a certain node. instead it tells the node what type of Pod to accept
+
+        Taint commands
+
+        - kubectl taint nodes node01 key=blue:NoSchedule        # taint a node
+        - kubectl taint nodes node01 blue:NoSchedule-           # to untaint a node
+        - kubectl  describe nodes node01 | grep -i taints
+
+    
 
 
